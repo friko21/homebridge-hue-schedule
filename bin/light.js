@@ -1,6 +1,6 @@
-var hue = require('node-hue-api'),
-    HueApi = hue.HueApi,
-    lightState = hue.lightState;
+var nodeHueApi = require('node-hue-api'),
+    HueApi = nodeHueApi.HueApi,
+    lightState = nodeHueApi.lightState;
 
 var log;
 var lightid;
@@ -18,13 +18,31 @@ function Light(homebridgeLog, config, host, user) {
     this.lightid = config.lightid;
     this.transitionTime = config.transitionTime;
     this.action = config.action;
-    this.hue = config.hsb.hue;
-    this.saturation = config.hsb.saturation;
-    this.brightness = config.hsb.brightness;
+    this.hue = config.hue;
+    this.saturation = config.saturation;
+    this.brightness = config.brightness;
     this.api = new HueApi(host, user);
-    this.state = lightState.create();
+    buildState();
 }
 
+function buildState () {
+    this.state = lightState.create();
+    switch(this.action) {
+        case 'on':
+            this.state.turnOn();
+            break;
+        case 'off':
+            this.state.turnOff();
+            break;
+        default:
+            break;
+    }
+    this.state.hsb(this.hue, this.saturation, this.brightness);
+    if (this.transitionTime) {
+        this.state.transitionTime(this.transitionTime);
+    }
+    
+}
 
 Light.prototype = {
     
