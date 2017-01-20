@@ -17,29 +17,31 @@ function Schedule(homebridgeLog, config) {
         this.lights.push(l);
     });
     this.task = nodeSchedule.scheduleJob(cron, execute());
-    this.activ = true;
+    this.active = true;
 }
 
 function execute () {
-    this.lights.gorEach( function(l) {
+    this.lights.forEach( function(l) {
         l.sendCommand();
     });
     this.task.cancel();
-    this.activ = false;
+    this.active = false;
 }
 
 Schedule.prototype = {
 
     setOn: function () {
         nodeSchedule.rescheduleJob(this.task, this.cron);
-    }
+        this.active = true;
+    },
     
     setOff: function () {
         this.task.cancel();
-    }
+        this.active = false;
+    },
 
     getState: function () {
-        return activ;
+        return this.active;
     }
 
 }
