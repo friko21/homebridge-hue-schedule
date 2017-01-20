@@ -3,7 +3,8 @@ var hue = require('node-hue-api');
 
 var Service, Characteristic;
 var log;
-
+var host;
+var user;
 
 
 module.exports = function (homebridge) {
@@ -15,6 +16,7 @@ module.exports = function (homebridge) {
 
 function HueSchedule (homebridgeLog, config) {
     this.log = homebridgeLog;
+    
     
 }
 
