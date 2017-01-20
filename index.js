@@ -29,10 +29,16 @@ HueSchedule.prototyp = {
     
     getServices: function () {
         log('getServices');
+        this.services = [];
+        
         var informationService = new Service.AccessoryInformation();
         informationService
             .setCharacteristic(Characteristic.Manufacturer, 'Hue Schedule')
             .setCharacteristic(Characteristic.Model, 'Version 0.0.1')
             .setCharacteristic(Characteristic.SerialNumber, '');
-    
+        this.services.push(informationService);
+        
+        
+        return this.services;
+    },
 }
