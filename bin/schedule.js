@@ -8,12 +8,12 @@ var lights;
 var task;
 var active;
 
-function Schedule(homebridgeLog, config) {
+function Schedule(homebridgeLog, config, host, user) {
     this.log = homebridgeLog;
     this.name = config.name;
     this.cron = config.cron;
     config.lights.forEach( function(element) {
-        var l = new light(homebridgeLog, element);
+        var l = new light(homebridgeLog, element, host, user);
         this.lights.push(l);
     });
     this.task = nodeSchedule.scheduleJob(cron, execute());
