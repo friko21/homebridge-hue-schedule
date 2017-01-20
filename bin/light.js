@@ -1,4 +1,7 @@
+var hue = require('node-hue-api');
+
 var log;
+var lightid;
 var transitionTime;
 var action;
 var hue;
@@ -8,6 +11,7 @@ var brightness;
 
 function Light(homebridgeLog, config) {
     this.log = homebridgeLog;
+    this.lightid = config.lightid;
     this.transitionTime = config.transitionTime;
     this.action = config.action;
     this.hue = config.hsb.hue;
@@ -17,5 +21,8 @@ function Light(homebridgeLog, config) {
 
 
 Light.prototype = {
-
+    
+    sendCommand: function () {
+        
+    }
 }
