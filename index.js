@@ -1,10 +1,9 @@
-var schedule = require('node-schedule');
-var hue = require('node-hue-api');
-
 var Service, Characteristic;
 var log;
 var host;
 var user;
+var schedules;
+var scheduleConfig;
 
 
 module.exports = function (homebridge) {
@@ -16,7 +15,10 @@ module.exports = function (homebridge) {
 
 function HueSchedule (homebridgeLog, config) {
     this.log = homebridgeLog;
-    
+    this.host = config.host;
+    this.user = config.user;
+    this.schedules = [];
+    this.scheduleConfig = config.schedules;
     
 }
 
@@ -40,6 +42,12 @@ HueSchedule.prototyp = {
             .setCharacteristic(Characteristic.SerialNumber, '');
         this.services.push(informationService);
         
+        this.scheduleConfig.forEach( function(config) {
+            
+            
+            
+            
+        }
         
         return this.services;
     },
