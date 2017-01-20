@@ -12,17 +12,20 @@ function Schedule(homebridgeLog, config) {
     this.log = homebridgeLog;
     this.name = config.name;
     this.cron = config.cron;
-    for each element in config.lights {
+    config.lights.forEach( function(element) {
         var l = new light(homebridgeLog, element);
         this.lights.push(l);
-    }
+    });
     this.task = nodeSchedule.scheduleJob(cron, execute());
-    this.aktiv = true;
+    this.activ = true;
 }
 
 function execute () {
-    
-    
+    this.lights.gorEach( function(l) {
+        l.sendCommand();
+    });
+    this.task.cancel();
+    this.activ = false;
 }
 
 Schedule.prototype = {
