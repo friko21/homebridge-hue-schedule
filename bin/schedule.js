@@ -6,6 +6,7 @@ var name;
 var cron;
 var lights;
 var task;
+var active;
 
 function Schedule(homebridgeLog, config) {
     this.log = homebridgeLog;
@@ -16,6 +17,7 @@ function Schedule(homebridgeLog, config) {
         this.lights.push(l);
     }
     this.task = nodeSchedule.scheduleJob(cron, execute());
+    this.aktiv = true;
 }
 
 function execute () {
@@ -25,5 +27,16 @@ function execute () {
 
 Schedule.prototype = {
 
+    setOn: function () {
+        nodeSchedule.rescheduleJob(this.task, this.cron);
+    }
+    
+    setOff: function () {
+        this.task.cancel();
+    }
+
+    getState: function () {
+        return activ;
+    }
 
 }
