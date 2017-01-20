@@ -9,6 +9,11 @@ function Schedule(homebridgeLog, config) {
     this.log = homebridgeLog;
     this.name = config.name;
     this.cron = config.cron;
+    for each element in config.lights {
+        var l = new light
+        
+        
+    }
 
 }
 
