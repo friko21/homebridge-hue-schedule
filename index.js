@@ -1,3 +1,4 @@
+var Schedule = require('./bin/schedule.js');
 var Service, Characteristic;
 var log;
 var host;
@@ -30,6 +31,10 @@ HueSchedule.prototyp = {
         callback();
     },
     
+    setPowerState: function (targetService, powerState, callback, context) {
+        log('setPowerState');
+        
+    },
     
     getServices: function () {
         log('getServices');
@@ -43,10 +48,14 @@ HueSchedule.prototyp = {
         this.services.push(informationService);
         
         this.scheduleConfig.forEach( function(config) {
-            
-            
-            
-            
+            this.schedules.push(new Schedule(this.log, config, this.host, this.user));
+            var switchName = config.name;
+            var switchService = new Service.Switch(switchName, switchName);
+            var boundSetPowerState = this.setPowerState.bind(this, switchService);
+            switchService
+                .getCharacteristic(Characteristic.On)
+                .on('set', boundSetPowerState);
+            this.services.push(switchService);   
         }
         
         return this.services;
