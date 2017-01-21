@@ -33,7 +33,18 @@ HueSchedule.prototyp = {
     
     setPowerState: function (targetService, powerState, callback, context) {
         log('setPowerState');
-        
+        this.services.forEach(function (switchService, i) {
+            if (i === 0) {
+                return;
+            }
+            if (targetService.subtype === switchService.subtype) {
+                if (powerState) {
+                    this.schedules[i].setOn();
+                } else {
+                    this.schedules[i].setOff();
+                }
+            }
+        }.bind(this));
     },
     
     getServices: function () {
