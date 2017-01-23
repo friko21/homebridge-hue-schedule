@@ -47,6 +47,10 @@ HueSchedule.prototyp = {
         }.bind(this));
     },
     
+    getPowerState: function (callback) {
+        
+    },
+    
     getServices: function () {
         log('getServices');
         this.services = [];
@@ -63,8 +67,10 @@ HueSchedule.prototyp = {
             var switchName = config.name;
             var switchService = new Service.Switch(switchName, switchName);
             var boundSetPowerState = this.setPowerState.bind(this, switchService);
+            var boundGetPowerState = this.getPowerState.bind(this, switchService);
             switchService
                 .getCharacteristic(Characteristic.On)
+                .on('get', boundGetPowerState)
                 .on('set', boundSetPowerState);
             this.services.push(switchService);   
         }
